@@ -3,275 +3,549 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>我们的婚礼｜新郎 & 新娘</title>
-  <meta name="description" content="诚挚邀请您见证我们的婚礼。" />
-  <!-- 分享卡片/社交预览 -->
-  <meta property="og:title" content="我们的婚礼｜新郎 & 新娘" />
-  <meta property="og:description" content="诚挚邀请您见证我们的婚礼。点击查看详情与回复出席。" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop" />
+  <title>我们结婚啦 · 林安 & 程夏</title>
+  <meta name="description" content="诚挚邀请您参加我们的婚礼，与我们一起见证这份温柔的爱。" />
+  <meta property="og:title" content="我们结婚啦 · 林安 & 程夏" />
+  <meta property="og:description" content="点开请柬，启程赴约。" />
+  <!-- 纯SVG占位分享图，部署后可替换为真实链接 -->
+  <meta property="og:image" content="data:image/svg+xml;utf8, 
+    <svg xmlns='http://www.w3.org/2000/svg' width='1200' height='630'>
+      <defs>
+        <linearGradient id='g' x1='0' y1='0' x2='0' y2='1'>
+          <stop offset='0%' stop-color='%23cfe8ff'/>
+          <stop offset='100%' stop-color='%23fff1e5'/>
+        </linearGradient>
+      </defs>
+      <rect width='100%' height='100%' fill='url(%23g)'/>
+      <text x='50%' y='45%' dominant-baseline='middle' text-anchor='middle' fill='%232a3a4a' font-size='62' font-family='Noto Serif SC'>我们结婚啦</text>
+      <text x='50%' y='60%' dominant-baseline='middle' text-anchor='middle' fill='%234a6fa7' font-size='42' font-family='Noto Serif SC'>林安 · 程夏</text>
+    </svg>" />
 
-  <!-- 优雅字体 -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=Great+Vibes&display=swap" rel="stylesheet" />
+  <!-- 字体（可按需替换） -->
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet" />
 
   <style>
     :root{
-      --bg:#f7f2ee;         /* 背景米杏 */
-      --ink:#2a2a2a;        /* 文字深色 */
-      --gold:#b8995f;       /* 香槟金 */
-      --rose:#e9c9c3;       /* 玫瑰粉 */
-      --card: rgba(255,255,255,.75);
+      --ink:#243036;              /* 文字主色 */
+      --sky-1:#cfe8ff;            /* 天空渐变 1 */
+      --sky-2:#fff1e5;            /* 天空渐变 2 */
+      --sun:#ffd59e;              /* 夕阳暖色 */
+      --leaf:#8fbf8f;             /* 草叶 */
+      --accent:#ffb083;           /* 点缀暖橘 */
+      --card-bg:rgba(255,255,255,.55);
+      --glass:blur(8px) saturate(1.1);
+      --radius:22px;
+      --shadow:0 10px 35px rgba(26,40,52,.18);
     }
+
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Noto Serif SC", serif;}
-    a{color:inherit}
-
-    /* 背景纹理与淡淡的渐变 */
-    body::before{
-      content:"";position:fixed;inset:0;z-index:-2;
-      background:radial-gradient(1200px 600px at 80% -10%, #fff, transparent),
-                 radial-gradient(800px 500px at -10% 100%, #fff, transparent),
-                 linear-gradient(180deg,#fff0, #fff0 40%, #f7e9e3 140%);
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--ink);
+      font-family:"Noto Serif SC", serif;
+      background:linear-gradient(180deg,var(--sky-1),var(--sky-2));
+      overflow-x:hidden;
     }
 
-    /* 飘落花瓣 */
-    .petals{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
-    .petals span{
-      position:absolute;top:-10vh; width:18px;height:14px;border-radius:54% 46% 67% 33%/48% 57% 43% 52%;
-      background:linear-gradient(145deg, #fff, var(--rose)); opacity:.5; filter:blur(.2px);
+    /* 纸张质感：细微纤维 + 颗粒噪点 */
+    body::before{
+      content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+      background:
+        radial-gradient(1200px 800px at 80% 5%, rgba(255,213,158,.35), transparent 60%),
+        repeating-linear-gradient( 45deg, rgba(0,0,0,.02) 0 2px, rgba(255,255,255,.02) 2px 4px),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+      mix-blend-mode:multiply;
+    }
+
+    .scene{position:relative; min-height:100svh; width:100%; z-index:1}
+
+    /* 云朵 */
+    .cloud{position:absolute; top:10vh; left:-25vw; opacity:.9; filter:blur(0.5px);}
+    .cloud .p{position:absolute; background:#fff; border-radius:50%}
+
+    /* 山与草 */
+    .horizon{position:absolute; inset:auto 0 -1px 0; bottom:0; width:100%;}
+
+    /* 落英/萤火般的轻粒子 */
+    .petal{position:fixed; top:-5vh; width:14px; height:10px; border-radius:60% 60% 60% 10% / 60% 60% 40% 10%;
+      background:radial-gradient(circle at 30% 30%, #ffe5d6 0 45%, #ffc4a3 46% 100%);
+      box-shadow:0 2px 6px rgba(0,0,0,.08); opacity:.85; z-index:2;
+      transform:rotate(0deg);
       animation:fall linear infinite;
     }
+
     @keyframes fall{
-      0%{transform:translateY(-10vh) rotate(0deg)}
-      100%{transform:translateY(110vh) rotate(360deg)}
+      0%{transform:translate3d(var(--sx,0), -5vh, 0) rotate(0deg)}
+      50%{transform:translate3d(calc(var(--sx,0) + 8vw), 50vh, 0) rotate(180deg)}
+      100%{transform:translate3d(calc(var(--sx,0) + 16vw), 105vh, 0) rotate(360deg)}
     }
 
-    .wrap{max-width:960px;margin:auto;padding:24px}
+    /* 邀请卡 */
+    .card{position:relative; margin:0 auto; max-width:880px; padding:28px;}
+    .sheet{
+      border-radius:var(--radius);
+      background:var(--card-bg);
+      backdrop-filter:var(--glass);
+      -webkit-backdrop-filter:var(--glass);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .sheet .inner{padding:42px 28px}
 
-    .card{background:var(--card);backdrop-filter:blur(6px);border:1px solid #fff7;box-shadow:0 10px 30px #00000014;border-radius:20px;padding:28px}
+    .pretitle{letter-spacing:.35em; text-indent:.35em; font-size:.9rem; opacity:.8}
 
-    header.hero{display:grid;gap:18px;align-items:center;margin:24px 0 10px}
-    .badge{display:inline-block;padding:6px 12px;border-radius:999px;background:#fff;letter-spacing:.12em;color:#666;border:1px solid #eee}
-    .names{font-weight:900;font-size:clamp(36px,8vw,64px);line-height:1.04;margin:6px 0}
-    .amp{font-family:"Great Vibes",cursive;color:var(--gold);font-weight:400;margin:0 12px;font-size:1.1em}
-    .meta{color:#666}
+    .names{
+      margin:8px 0 0; line-height:1.2; text-align:center;
+      font-family:"Ma Shan Zheng","Great Vibes", cursive;
+      font-size: clamp(40px, 8vw, 92px);
+    }
+    .amp{padding:0 .35em; font-family:inherit; opacity:.7}
 
-    .btn{display:inline-block;padding:12px 20px;border-radius:999px;text-decoration:none;border:1px solid #0000;transition:.2s ease;
-         background:linear-gradient(180deg,#fff,#f5efe9);
-         box-shadow:0 6px 18px #00000010, inset 0 0 0 1px #ffffffb3}
-    .btn:hover{transform:translateY(-1px);box-shadow:0 10px 22px #00000016, inset 0 0 0 1px #fff}
-    .btn.gold{background:linear-gradient(180deg,#e7d8c2,#c9aa74); color:#352a16; font-weight:600}
+    .tagline{margin:.4rem auto 1.2rem; text-align:center; font-size:1.1rem; opacity:.9}
 
-    .grid{display:grid;gap:16px}
-    @media (min-width:760px){
-      .grid.twocol{grid-template-columns:1.2fr .8fr}
-      .grid.three{grid-template-columns:repeat(3,1fr)}
+    .meta{
+      display:grid; grid-template-columns: 1fr; gap:12px; text-align:center;
+      margin:18px auto 10px; font-size:1.05rem;
+    }
+    .meta strong{font-weight:700}
+    .divider{height:1px; background:linear-gradient(90deg, transparent, rgba(0,0,0,.12), transparent); margin:22px 0}
+
+    .cta{
+      display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:12px; margin-top:10px
+    }
+    .btn{
+      padding:12px 16px; border-radius:16px; background:#ffffffcc; color:#2a3a4a; text-decoration:none; font-weight:600;
+      border:1px solid rgba(22,40,60,.12); box-shadow:0 6px 16px rgba(22,40,60,.08);
+      transition:.25s ease; backdrop-filter:blur(5px)
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn.primary{background:linear-gradient(180deg,#ffffffee,#fff6f0); border-color:#ffd9bf}
+
+    .countdown{margin:14px auto 0; text-align:center; font-variant-numeric:tabular-nums; opacity:.9}
+
+    .footer{padding:14px 24px; background:linear-gradient(180deg, rgba(255,255,255,.2), rgba(255,255,255,.4)); display:flex; align-items:center; justify-content:space-between}
+    .footer small{opacity:.75}
+
+    /* 自适应 */
+    @media (min-width:720px){
+      .meta{grid-template-columns: repeat(3, 1fr)}
+      .sheet .inner{padding:54px 64px}
     }
 
-    .section-title{font-size:22px;font-weight:700;margin:6px 0 8px;letter-spacing:.06em;color:#443b2a}
-    .kvs{margin:8px 0 0;line-height:1.7}
-    .kvs b{display:inline-block;min-width:5ch;color:#6a5a3e}
+    /* 可访问性：更强的焦点可视 */
+    :focus-visible{outline:3px solid #2b66a1; outline-offset:2px}
+  /* —— 宫崎骏风格增添元素 & 相册 —— */
 
-    .countdown{font-feature-settings:"tnum" 1,"pnum" 1; font-variant-numeric:tabular-nums; display:flex; gap:10px; flex-wrap:wrap}
-    .countdown .slot{background:#fff;border:1px solid #eee;border-radius:14px;padding:10px 14px;min-width:84px;text-align:center}
-    .slot .num{font-size:28px;font-weight:700;display:block}
-    .slot .lab{font-size:12px;color:#777}
+/* 纸灯笼（温柔的暖色摇摆） */
+.lanterns{position:absolute; right:3vw; top:6vh; z-index:2; pointer-events:none}
+.lantern{position:absolute; width:56px; height:72px; border-radius:14px 14px 22px 22px; background:radial-gradient(70% 60% at 50% 35%, #ffe8c8 0 55%, #ffbf80 56% 100%); box-shadow:0 10px 18px rgba(26,40,52,.18); transform-origin:top center; animation:sway 5.8s ease-in-out infinite}
+.lantern::before{content:""; position:absolute; top:-24px; left:50%; width:2px; height:24px; transform:translateX(-50%); background:#8b6b4a}
+.lantern::after{content:""; position:absolute; bottom:-16px; left:50%; width:10px; height:16px; transform:translateX(-50%); border-radius:2px; background:linear-gradient(180deg,#ffbd80,#ff8a66)}
+.lantern:nth-child(2){left:72px; animation-duration:6.6s}
+.lantern:nth-child(3){left:144px; animation-duration:7.2s}
+@keyframes sway{0%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}100%{transform:rotate(-4deg)}}
 
-    .timeline{list-style:none;padding:0;margin:0}
-    .timeline li{display:grid;grid-template-columns:84px 1fr;gap:12px;padding:14px 0;border-bottom:1px dashed #e7e0d8}
-    .timeline time{color:#6a5a3e;font-weight:600}
+/* 鲤鱼旗（koinobori） */
+.koi{position:absolute; left:5vw; top:12vh; z-index:1; opacity:.9; pointer-events:none}
+.koi svg{width:220px; height:auto; filter:drop-shadow(0 6px 8px rgba(0,0,0,.08))}
+.koi .tail{transform-origin:160px 42px; animation:wave 2.8s ease-in-out infinite}
+@keyframes wave{0%{transform:rotate(0)}50%{transform:rotate(8deg)}100%{transform:rotate(0)}}
 
-    .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-    .gallery img{width:100%;height:180px;object-fit:cover;border-radius:14px;border:1px solid #fff}
-    @media (min-width:760px){ .gallery{grid-template-columns:repeat(4,1fr)} }
+/* 轻盈飞行器剪影 */
+.airship{position:absolute; left:-20vw; top:20vh; z-index:1; opacity:.7; pointer-events:none; animation:sail 95s linear infinite}
+@keyframes sail{from{transform:translateX(-20vw)}to{transform:translateX(125vw)}}
 
-    footer{color:#7a6b52;text-align:center;padding:22px 0 36px}
-  </style>
-  <meta name="robots" content="noindex,nofollow,noimageindex,noarchive" />
-  <meta name="googlebot" content="noindex,nofollow" />
-  <meta name="referrer" content="no-referrer" />
+/* 萤火虫（夜幕氛围） */
+.firefly{position:fixed; width:4px; height:4px; border-radius:50%; background:radial-gradient(circle, #fff, rgba(255,255,255,0)); box-shadow:0 0 10px 3px rgba(255,255,200,.6); mix-blend-mode:screen; pointer-events:none; animation:flicker 3s ease-in-out infinite, floaty 22s linear infinite}
+@keyframes flicker{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes floaty{from{transform:translateY(0)}to{transform:translateY(-80vh)}}
+
+/* 相册（波洛洛相纸风） */
+.gallery{margin-top:18px}
+.gallery .wrap{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:16px}
+.polaroid{background:#fff; border-radius:14px; padding:10px; box-shadow:var(--shadow); transform:rotate(-1.2deg); transition:.25s ease}
+.polaroid:nth-child(even){transform:rotate(1.2deg)}
+.polaroid:hover{transform:translateY(-4px) rotate(0deg); box-shadow:0 20px 40px rgba(22,40,60,.18)}
+.polaroid img{display:block; width:100%; height:auto; border-radius:10px}
+.polaroid figcaption{margin-top:8px; text-align:center; font-size:.95rem; opacity:.8}
+
+/* —— 新增：双喜印章 / 爱心漂浮 / 花丛前景 —— */
+
+/* 双喜印章（柔和红金，轻微起伏） */
+.seal{position:absolute; left:50%; top:7vh; transform:translateX(-50%); width:96px; height:96px; border-radius:50%;
+  background:radial-gradient(circle at 50% 40%, #ff8a8a, #d83a3a 70%);
+  box-shadow:0 10px 24px rgba(216,58,58,.25); display:grid; place-items:center; color:#fff7e6; font-family:"Ma Shan Zheng", serif; font-size:56px; letter-spacing:.05em; z-index:3; animation:bob 6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,6px)}}
+
+/* 爱心上浮（与花瓣同层次的温柔动效） */
+.heart{position:fixed; bottom:-6vh; width:16px; height:16px; transform:rotate(45deg); background:linear-gradient(180deg,#ff9fb3,#ff6a88); border-radius:3px; opacity:.85; z-index:2; pointer-events:none; box-shadow:0 6px 14px rgba(255,100,140,.18); animation:heartUp linear forwards}
+.heart::before,.heart::after{content:""; position:absolute; width:16px; height:16px; border-radius:50%; background:inherit}
+.heart::before{left:-8px; top:0}
+.heart::after{left:0; top:-8px}
+@keyframes heartUp{0%{transform:translate(var(--hx,0),0) rotate(45deg) scale(var(--hs,1)); opacity:0}10%{opacity:1}100%{transform:translate(var(--hx,0),-110vh) rotate(45deg) scale(var(--hs,1)); opacity:0}}
+
+/* 花丛前景（轻轻摇摆的卡通花） */
+.flowers{position:absolute; inset:auto 0 0 0; height:180px;}
+.flowers .stem{transform-origin:0 160px}
+.flowers .petal{fill:#ffd1dc}
+.flowers .petal2{fill:#fff0a6}
+.flowers .center{fill:#ff9fb3}
+.flowers .leaf{fill:#86bd96}
+
+</style>
 </head>
 <body>
+  <div class="scene" aria-hidden="true" id="scene">
+    <!-- 云层将由 JS 动态生成 -->
 
-  <!-- 亲友口令门禁（软保护） -->
-  <div id="gate" class="wrap">
-    <div class="card" style="text-align:center; margin:8vh auto 0; max-width:720px">
-      <span class="badge">Private Invitation</span>
-      <h2 class="names" style="font-size:32px; margin:8px 0 0">亲友口令</h2>
-      <p class="meta">仅对受邀亲友开放，请输入口令后查看请柬。</p>
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px">
-        <input id="pass" type="password" placeholder="请输入口令" aria-label="请输入口令" style="padding:12px 16px;border-radius:12px;border:1px solid #e6e0d7;min-width:260px;outline:none" />
-        <button class="btn gold" id="okBtn" type="button">进入</button>
-      </div>
-      <p id="msg" class="meta" style="margin-top:10px;color:#a66"></p>
+    <!-- 宫崎骏式温柔元素：纸灯笼、鲤鱼旗与小飞行器 -->
+    <div class="lanterns" aria-hidden="true">
+      <div class="lantern"></div>
+      <div class="lantern"></div>
+      <div class="lantern"></div>
     </div>
+
+    <div class="koi" aria-hidden="true">
+      <svg viewBox="0 0 220 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="koinobori">
+        <defs>
+          <linearGradient id="k1" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#9ec9ff"/>
+            <stop offset="100%" stop-color="#6ea8ff"/>
+          </linearGradient>
+        </defs>
+        <line x1="0" y1="42" x2="70" y2="42" stroke="#8b6b4a" stroke-width="3"/>
+        <circle cx="78" cy="42" r="10" fill="#8b6b4a"/>
+        <path d="M86,24 h70 a52,20 0 0 1 0,36 h-70 z" fill="url(#k1)"/>
+        <g class="tail">
+          <path d="M156,24 l44,18 l-44,18 z" fill="#a4d6a6" opacity=".9"/>
+        </g>
+        <circle cx="98" cy="42" r="3" fill="#243036"/>
+      </svg>
+
+    <!-- 花丛前景（SVG） -->
+    <svg class="flowers" viewBox="0 0 1200 180" preserveAspectRatio="none" aria-hidden="true">
+      <g class="stem" transform="translate(120,0)">
+        <path d="M0,160 q12,-40 8,-80" stroke="#86bd96" stroke-width="3" fill="none"/>
+        <g transform="translate(0,80)">
+          <circle class="petal" cx="0" cy="0" r="9"/>
+          <circle class="petal" cx="-8" cy="-5" r="7"/>
+          <circle class="petal" cx="8" cy="-5" r="7"/>
+          <circle class="petal" cx="-6" cy="6" r="7"/>
+          <circle class="petal" cx="6" cy="6" r="7"/>
+          <circle class="center" cx="0" cy="0" r="3"/>
+        </g>
+        <animateTransform attributeName="transform" type="rotate" values="-4 0 160; 4 0 160; -4 0 160" dur="6s" repeatCount="indefinite"/>
+      </g>
+      <g class="stem" transform="translate(300,0)">
+        <path d="M0,160 q10,-36 6,-78" stroke="#86bd96" stroke-width="3" fill="none"/>
+        <g transform="translate(0,86)">
+          <circle class="petal2" cx="0" cy="0" r="9"/>
+          <circle class="petal2" cx="-8" cy="-5" r="7"/>
+          <circle class="petal2" cx="8" cy="-5" r="7"/>
+          <circle class="petal2" cx="-6" cy="6" r="7"/>
+          <circle class="petal2" cx="6" cy="6" r="7"/>
+          <circle class="center" cx="0" cy="0" r="3"/>
+        </g>
+        <animateTransform attributeName="transform" type="rotate" values="3 0 160; -3 0 160; 3 0 160" dur="5.5s" repeatCount="indefinite"/>
+      </g>
+      <g class="stem" transform="translate(510,0)">
+        <path d="M0,160 q12,-44 8,-86" stroke="#86bd96" stroke-width="3" fill="none"/>
+        <g transform="translate(0,74)">
+          <circle class="petal" cx="0" cy="0" r="9"/>
+          <circle class="petal" cx="-8" cy="-5" r="7"/>
+          <circle class="petal" cx="8" cy="-5" r="7"/>
+          <circle class="petal" cx="-6" cy="6" r="7"/>
+          <circle class="petal" cx="6" cy="6" r="7"/>
+          <circle class="center" cx="0" cy="0" r="3"/>
+        </g>
+        <animateTransform attributeName="transform" type="rotate" values="-2 0 160; 2 0 160; -2 0 160" dur="5s" repeatCount="indefinite"/>
+      </g>
+      <g class="stem" transform="translate(720,0)">
+        <path d="M0,160 q11,-42 7,-82" stroke="#86bd96" stroke-width="3" fill="none"/>
+        <g transform="translate(0,82)">
+          <circle class="petal2" cx="0" cy="0" r="9"/>
+          <circle class="petal2" cx="-8" cy="-5" r="7"/>
+          <circle class="petal2" cx="8" cy="-5" r="7"/>
+          <circle class="petal2" cx="-6" cy="6" r="7"/>
+          <circle class="petal2" cx="6" cy="6" r="7"/>
+          <circle class="center" cx="0" cy="0" r="3"/>
+        </g>
+        <animateTransform attributeName="transform" type="rotate" values="2 0 160; -2 0 160; 2 0 160" dur="6.2s" repeatCount="indefinite"/>
+      </g>
+      <g class="stem" transform="translate(930,0)">
+        <path d="M0,160 q12,-40 8,-78" stroke="#86bd96" stroke-width="3" fill="none"/>
+        <g transform="translate(0,86)">
+          <circle class="petal" cx="0" cy="0" r="9"/>
+          <circle class="petal" cx="-8" cy="-5" r="7"/>
+          <circle class="petal" cx="8" cy="-5" r="7"/>
+          <circle class="petal" cx="-6" cy="6" r="7"/>
+          <circle class="petal" cx="6" cy="6" r="7"/>
+          <circle class="center" cx="0" cy="0" r="3"/>
+        </g>
+        <animateTransform attributeName="transform" type="rotate" values="-3 0 160; 3 0 160; -3 0 160" dur="5.8s" repeatCount="indefinite"/>
+      </g>
+      <g class="stem" transform="translate(1110,0)">
+        <path d="M0,160 q10,-36 6,-74" stroke="#86bd96" stroke-width="3" fill="none"/>
+        <g transform="translate(0,92)">
+          <circle class="petal2" cx="0" cy="0" r="9"/>
+          <circle class="petal2" cx="-8" cy="-5" r="7"/>
+          <circle class="petal2" cx="8" cy="-5" r="7"/>
+          <circle class="petal2" cx="-6" cy="6" r="7"/>
+          <circle class="petal2" cx="6" cy="6" r="7"/>
+          <circle class="center" cx="0" cy="0" r="3"/>
+        </g>
+        <animateTransform attributeName="transform" type="rotate" values="1 0 160; -1 0 160; 1 0 160" dur="6.6s" repeatCount="indefinite"/>
+      </g>
+    </svg>
   </div>
 
+    <div class="airship" aria-hidden="true">
+      <svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="150" cy="60" rx="130" ry="42" fill="#cfe8ff" opacity=".85"/>
+        <rect x="128" y="82" width="44" height="14" rx="3" fill="#7fa3c7"/>
+        <polygon points="130,86 120,106 180,106 170,86" fill="#9bb7d7"/>
+      </svg>
+    </div>
 
-  <!-- 飘落花瓣若干个 -->
-  <div class="petals" aria-hidden="true"></div>
+    <!-- 双喜印章 -->
+    <div class="seal" aria-label="双喜">囍</div>
 
-  <main class="wrap" id="content" hidden>
-    <header class="hero card">
-      <span class="badge">Wedding Invitation</span>
-      <h1 class="names">新郎姓名 <span class="amp">&</span> 新娘姓名</h1>
-      <p class="meta">公历 <b>2025年10月2日（周四）11:30</b> ｜ 地点：<b>某某酒店·宴会厅</b></p>
-      <div class="grid twocol" style="align-items:center;gap:22px">
-        <div>
-          <div class="section-title">倒计时</div>
-          <div class="countdown" id="countdown">
-            <div class="slot"><span class="num">—</span><span class="lab">天</span></div>
-            <div class="slot"><span class="num">—</span><span class="lab">时</span></div>
-            <div class="slot"><span class="num">—</span><span class="lab">分</span></div>
-            <div class="slot"><span class="num">—</span><span class="lab">秒</span></div>
-          </div>
-          <p style="margin-top:12px;color:#6f6456">愿在花与光中，与您共享这份喜悦。</p>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
-            <a class="btn gold" href="#rsvp">回复出席</a>
-            <button class="btn" id="shareBtn" type="button">分享请柬链接</button>
-            <button class="btn" id="copyBtn" type="button">复制链接</button>
-          </div>
+    <!-- 地平线：群山与草地（SVG 手绘感） -->
+    <svg class="horizon" viewBox="0 0 1200 280" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="mg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#b7d0ea"/>
+          <stop offset="100%" stop-color="#dfefff"/>
+        </linearGradient>
+        <linearGradient id="fg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#a6d6a6"/>
+          <stop offset="100%" stop-color="#cfe9c7"/>
+        </linearGradient>
+      </defs>
+      <!-- 远山 -->
+      <path d="M0,180 C120,140 220,120 340,170 C420,200 520,160 640,180 C760,200 900,150 1200,190 L1200,280 L0,280 Z" fill="url(#mg)" opacity=".9"/>
+      <!-- 近景草坡 -->
+      <path d="M0,210 C190,200 260,220 410,210 C620,195 700,230 880,215 C980,207 1100,225 1200,218 L1200,280 L0,280 Z" fill="url(#fg)"/>
+      <!-- 摇摆的草丛 -->
+      <g id="grass" fill="#8fbf8f" opacity=".9">
+        <path d="M80,270 q6,-28 2,-52 q8,24 6,52 z">
+          <animateTransform attributeName="transform" type="rotate" values="-3 80 270; 3 80 270; -3 80 270" dur="6s" repeatCount="indefinite"/>
+        </path>
+        <path d="M140,270 q8,-32 2,-56 q8,26 6,56 z">
+          <animateTransform attributeName="transform" type="rotate" values="2 140 270; -2 140 270; 2 140 270" dur="5.5s" repeatCount="indefinite"/>
+        </path>
+        <path d="M220,270 q8,-34 2,-60 q8,26 6,60 z">
+          <animateTransform attributeName="transform" type="rotate" values="-2 220 270; 2 220 270; -2 220 270" dur="5s" repeatCount="indefinite"/>
+        </path>
+        <use href="#grass" x="260"/>
+        <use href="#grass" x="520"/>
+        <use href="#grass" x="780"/>
+      </g>
+    </svg>
+  </div>
+
+  <main class="card">
+    <section class="sheet" role="article" aria-label="婚礼请柬">
+      <div class="inner">
+        <div class="pretitle">INVITATION</div>
+        <h1 class="names">林安 <span class="amp">·</span> 程夏</h1>
+        <p class="tagline">愿风吹过山海，携你与我同在。</p>
+
+        <div class="meta" id="meta">
+          <div><strong>日期</strong><br><span id="dateText">2026 年 10 月 1 日（周四）</span></div>
+          <div><strong>时间</strong><br><span id="timeText">11:00 - 14:00</span></div>
+          <div><strong>地点</strong><br><span id="placeText">杭州 · 云岚花园酒店（露台草坪）</span></div>
         </div>
-        <div class="card" style="padding:0;overflow:hidden">
-          <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=1200&auto=format&fit=crop" alt="wedding" style="width:100%;height:100%;object-fit:cover;display:block"/>
+
+        <div class="divider"></div>
+
+        <div class="cta">
+          <a class="btn primary" href="#" id="mapBtn">导航到场地</a>
+          <button class="btn" id="calendarBtn" type="button">添加到日历</button>
+          <button class="btn" id="shareBtn" type="button">分享这张请柬</button>
+          <a class="btn" id="rsvpBtn" href="#rsvp" onclick="alert('可将此按钮链接到你们的线上回执表单，例如问卷、飞书表单等。');">RSVP 回执</a>
         </div>
+
+        <p class="countdown">距见证我们的时刻还有：<span id="dd">--</span> 天 <span id="hh">--</span> 时 <span id="mm">--</span> 分 <span id="ss">--</span> 秒</p>
       </div>
-    </header>
+      <div class="footer">
+        <small>着装建议：舒适淡雅 · 可带少量花束或祝福卡片</small>
+        <small>谢谢你来，满足我们的“优雅登场”。</small>
+      </div>
+    </section>
 
-    <section class="card" id="details" style="margin-top:18px">
-      <div class="grid twocol" style="gap:22px">
-        <div>
-          <div class="section-title">婚礼信息</div>
-          <p class="kvs"><b>日期</b> 2025年10月2日（农历八月初十）</p>
-          <p class="kvs"><b>时间</b> 11:30 典礼，12:18 入席</p>
-          <p class="kvs"><b>地点</b> 某某酒店·一层宴会厅（城市/区）</p>
-          <p class="kvs"><b>着装</b> 端庄雅致 / Smart Casual（可点缀米杏或香槟金）</p>
-          <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
-            <a class="btn" target="_blank" href="https://maps.google.com/?q=Hotel">查看地图</a>
-            <a class="btn" id="icsBtn" href="#">加入日历</a>
-          </div>
-        </div>
-        <div>
-          <div class="section-title">当日流程</div>
-          <ul class="timeline">
-            <li><time>10:30</time><span>宾客签到 · 迎宾区合影</span></li>
-            <li><time>11:30</time><span>证婚仪式 · 交换誓言</span></li>
-            <li><time>12:18</time><span>开席 · 亲友祝福</span></li>
-            <li><time>14:00</time><span>送宾 · 感谢光临</span></li>
-          </ul>
+    <!-- 相册：把 src 换成你们的照片路径即可（assets/photo1.jpg ...） -->
+    <section class="sheet gallery" id="gallery">
+      <div class="inner">
+        <div class="pretitle">GALLERY</div>
+        <p class="tagline">我们的旅途小片段</p>
+        <div class="wrap">
+          <figure class="polaroid">
+            <img loading="lazy" src="assets/photo1.jpg" alt="我们在海边的合影"/>
+            <figcaption>初见</figcaption>
+          </figure>
+          <figure class="polaroid">
+            <img loading="lazy" src="assets/photo2.jpg" alt="一起远足的瞬间"/>
+            <figcaption>一路有风</figcaption>
+          </figure>
+          <figure class="polaroid">
+            <img loading="lazy" src="assets/photo3.jpg" alt="黄昏下的背影"/>
+            <figcaption>黄昏与拥抱</figcaption>
+          </figure>
+          <figure class="polaroid">
+            <img loading="lazy" src="assets/photo4.jpg" alt="城市街头的欢笑"/>
+            <figcaption>日常的小宇宙</figcaption>
+          </figure>
         </div>
       </div>
     </section>
 
-    <section class="card" style="margin-top:18px">
-      <div class="section-title">甜蜜相册</div>
-      <div class="gallery" aria-label="gallery">
-        <img src="https://images.unsplash.com/photo-1501376420731-2250d9a24e0e?q=80&w=1200&auto=format&fit=crop" alt="gallery1"/>
-        <img src="https://images.unsplash.com/photo-1525447152931-1c1b9c3de37b?q=80&w=1200&auto=format&fit=crop" alt="gallery2"/>
-        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop" alt="gallery3"/>
-        <img src="https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?q=80&w=1200&auto=format&fit=crop" alt="gallery4"/>
-      </div>
-    </section>
-
-    <section id="rsvp" class="card" style="margin-top:18px">
-      <div class="section-title">请回复出席</div>
-      <p style="margin:8px 0 14px">为了更好地安排席位与餐食，烦请您在 <b>9月15日</b> 前回复是否出席。感谢！</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <!-- 将下面链接替换为你的表单地址（例：问卷星/飞书/Google 表单） -->
-        <a class="btn gold" href="https://forms.gle/your-form" target="_blank">打开 RSVP 表单</a>
-        <a class="btn" href="tel:+8613800000000">联系新人</a>
-      </div>
-    </section>
-
-    <footer>
-      谢谢您的祝福与到来｜期待与您相见
-    </footer>
   </main>
 
   <script>
-  // —— 亲友口令门禁（软保护） ——
-  (function(){
-    const content = document.getElementById('content');
-    const gate = document.getElementById('gate');
-    // 修改为你的口令，可设置多个，例如 ['1314','我们结婚啦']
-    const allowedPlain = ['请改为你自己的口令'];
-    const ok = (v)=> allowedPlain.includes((v||'').trim());
-    function show(){ if(content){content.hidden=false;} if(gate){gate.remove();} }
-    const qp = new URLSearchParams(location.search); const c = qp.get('code');
-    if(localStorage.getItem('invite_ok')==='1' || (c && ok(c))){ localStorage.setItem('invite_ok','1'); show(); }
-    document.getElementById('okBtn')?.addEventListener('click', ()=>{
-      const v = document.getElementById('pass')?.value || '';
-      if(ok(v)){ localStorage.setItem('invite_ok','1'); show(); }
-      else{ const m = document.getElementById('msg'); if(m) m.textContent='口令不正确，请再试试'; }
-    });
-  })();
-    // 生成少量花瓣
-    (function(){
-      const box=document.querySelector('.petals');
-      const n=24; // 数量
-      for(let i=0;i<n;i++){
-        const s=document.createElement('span');
-        const left=Math.random()*100; // vw
-        const delay=Math.random()*8;  // s
-        const dur = 10 + Math.random()*10; // s
-        s.style.left=left+'vw';
-        s.style.animationDuration=dur+'s';
-        s.style.animationDelay=delay+'s';
-        s.style.opacity=0.35+Math.random()*0.4;
-        s.style.transform=`translateY(${-10-Math.random()*80}vh)`;
-        box.appendChild(s);
-      }
-    })();
-
-    // 倒计时（修改下面日期时间）
-    const weddingTime = new Date('2025-10-02T11:30:00+08:00');
-    const cd = document.getElementById('countdown');
-    const update = () => {
-      const now = new Date();
-      let diff = Math.max(0, weddingTime - now);
-      const d = Math.floor(diff/86400000); diff -= d*86400000;
-      const h = Math.floor(diff/3600000); diff -= h*3600000;
-      const m = Math.floor(diff/60000); diff -= m*60000;
-      const s = Math.floor(diff/1000);
-      cd.innerHTML = `
-        <div class="slot"><span class="num">${String(d)}</span><span class="lab">天</span></div>
-        <div class="slot"><span class="num">${String(h).padStart(2,'0')}</span><span class="lab">时</span></div>
-        <div class="slot"><span class="num">${String(m).padStart(2,'0')}</span><span class="lab">分</span></div>
-        <div class="slot"><span class="num">${String(s).padStart(2,'0')}</span><span class="lab">秒</span></div>`;
+    // === 可编辑：请把日期、地点、链接替换为你们的信息 ===
+    const WEDDING = {
+      // ISO 格式：时区可按需改为你所在城市
+      date: '2026-10-01T11:00:00+08:00',
+      dateText: '2026 年 10 月 1 日（周四）',
+      timeText: '11:00 - 14:00',
+      placeText: '杭州 · 云岚花园酒店（露台草坪）',
+      mapUrl: 'https://maps.google.com/?q=云岚花园酒店 杭州',
+      // RSVP 表单链接（可替换）
+      rsvpUrl: '#'
     };
-    update(); setInterval(update, 1000);
 
-    // 一键分享/复制链接
-    const shareBtn = document.getElementById('shareBtn');
-    const copyBtn  = document.getElementById('copyBtn');
-    shareBtn?.addEventListener('click', async () => {
-      const data = { title:'我们的婚礼', text:'诚邀您的见证与祝福', url: location.href };
-      if (navigator.share) {
-        try { await navigator.share(data); } catch(e){}
-      } else { await navigator.clipboard.writeText(location.href); shareBtn.textContent='链接已复制'; }
-    });
-    copyBtn?.addEventListener('click', async () => {
-      await navigator.clipboard.writeText(location.href);
-      copyBtn.textContent='已复制';
-      setTimeout(()=>copyBtn.textContent='复制链接',1500)
-    });
+    // 写入文本
+    dateText.textContent = WEDDING.dateText;
+    timeText.textContent = WEDDING.timeText;
+    placeText.textContent = WEDDING.placeText;
+    mapBtn.href = WEDDING.mapUrl;
+    if(WEDDING.rsvpUrl && WEDDING.rsvpUrl !== '#') rsvpBtn.href = WEDDING.rsvpUrl;
 
-    // 生成 ICS 日历文件
-    const icsBtn = document.getElementById('icsBtn');
-    icsBtn?.addEventListener('click', (e)=>{
-      e.preventDefault();
-      const dtstart = '20251002T113000'; // 本地时间，按需修改
-      const dtend   = '20251002T140000';
-      const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Wedding Invite//CN\nBEGIN:VEVENT\nUID:${Date.now()}@invite\nDTSTAMP:${new Date().toISOString().replace(/[-:]/g,'').split('.')[0]}Z\nDTSTART:${dtstart}\nDTEND:${dtend}\nSUMMARY:我们的婚礼\nLOCATION:某某酒店·宴会厅\nDESCRIPTION:诚挚邀请您光临我们的婚礼！\nEND:VEVENT\nEND:VCALENDAR`;
+    // 倒计时
+    const t = new Date(WEDDING.date).getTime();
+    function pad(n){return String(n).padStart(2,'0')}
+    function tick(){
+      const now = Date.now();
+      let delta = Math.max(0, t - now);
+      const dd = Math.floor(delta / (24*3600e3));
+      delta -= dd*24*3600e3;
+      const hh = Math.floor(delta / 3600e3);
+      delta -= hh*3600e3;
+      const mm = Math.floor(delta / 60e3);
+      delta -= mm*60e3;
+      const ss = Math.floor(delta / 1000);
+      document.getElementById('dd').textContent = pad(dd);
+      document.getElementById('hh').textContent = pad(hh);
+      document.getElementById('mm').textContent = pad(mm);
+      document.getElementById('ss').textContent = pad(ss);
+    }
+    tick(); setInterval(tick, 1000);
+
+    // 萤火虫（少量，提升夜幕氛围）
+    for(let i=0;i<14;i++){
+      const f=document.createElement('span');
+      f.className='firefly';
+      f.style.left=(Math.random()*100)+'vw';
+      f.style.bottom=(Math.random()*20)+'vh';
+      f.style.animationDuration=(2.6+Math.random()*2)+'s, '+(18+Math.random()*14)+'s';
+      document.body.appendChild(f);
+    }
+
+    // 添加到日历：生成 ICS 文件下载
+    document.getElementById('calendarBtn').addEventListener('click', ()=>{
+      const start = new Date(WEDDING.date);
+      const end = new Date(start.getTime() + 3*3600e3); // 3 小时
+      function fmt(d){
+        const pad=n=>String(n).padStart(2,'0');
+        return d.getUTCFullYear()+pad(d.getUTCMonth()+1)+pad(d.getUTCDate())+'T'+pad(d.getUTCHours())+pad(d.getUTCMinutes())+pad(d.getUTCSeconds())+'Z'
+      }
+      const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Wedding//Invitation//CN\nBEGIN:VEVENT\nUID:${Date.now()}@wedding\nDTSTAMP:${fmt(new Date())}\nDTSTART:${fmt(start)}\nDTEND:${fmt(end)}\nSUMMARY:我们结婚啦 · 林安 & 程夏\nDESCRIPTION:诚挚邀请您与我们一同见证爱情。\nLOCATION:${WEDDING.placeText}\nEND:VEVENT\nEND:VCALENDAR`;
       const blob = new Blob([ics], {type:'text/calendar'});
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = url; a.download = 'wedding-invite.ics';
-      document.body.appendChild(a); a.click(); a.remove();
-      URL.revokeObjectURL(url);
+      a.href = url; a.download = 'wedding.ics'; a.click();
+      setTimeout(()=>URL.revokeObjectURL(url), 3000);
     });
+
+    // 分享链接
+    document.getElementById('shareBtn').addEventListener('click', async ()=>{
+      const shareData = {title: document.title, text:'诚挚邀请您参加我们的婚礼', url: location.href};
+      if(navigator.share){
+        try{ await navigator.share(shareData); }catch(e){}
+      }else{
+        try{ await navigator.clipboard.writeText(location.href); alert('链接已复制，快去分享吧！'); }
+        catch(e){ prompt('复制这条链接分享给朋友：', location.href); }
+      }
+    });
+
+    // 生成轻盈的落英与云朵（宫崎骏式的温柔风感）
+    function rand(min,max){return Math.random()*(max-min)+min}
+
+    // 落英
+    for(let i=0;i<24;i++){
+      const s=document.createElement('span');
+      s.className='petal';
+      s.style.left=rand(0, 100)+'vw';
+      s.style.animationDuration=rand(18, 32)+'s';
+      s.style.animationDelay=rand(-16, 0)+'s';
+      s.style.setProperty('--sx', rand(-8, 8)+'vw');
+      document.body.appendChild(s);
+    }
+
+    // 云朵：由多个圆组成的小云团，缓慢横移
+    const scene = document.getElementById('scene');
+    function makeCloud(y, scale, dur){
+      const c=document.createElement('div'); c.className='cloud'; c.style.top = y+'vh'; c.style.animation = `drift ${dur}s linear infinite`;
+      c.style.transform = `scale(${scale})`;
+      const dots = [
+        {w:160,h:64,x:0,y:20}, {w:120,h:60,x:90,y:0}, {w:110,h:50,x:190,y:18}, {w:70,h:40,x:140,y:30}
+      ];
+      dots.forEach(d=>{ const p=document.createElement('div'); p.className='p'; p.style.width=d.w+'px'; p.style.height=d.h+'px'; p.style.left=d.x+'px'; p.style.top=d.y+'px'; c.appendChild(p); });
+      scene.appendChild(c);
+    }
+    makeCloud(10, 0.9, 95);
+    makeCloud(18, 1.1, 120);
+    makeCloud(26, 0.8, 130);
+    makeCloud(34, 1.0, 105);
+
+    const drift = document.createElement('style');
+    drift.textContent = `@keyframes drift { from{ transform: translateX(-25vw) } to{ transform: translateX(125vw) } }`;
+    document.head.appendChild(drift);
+
+    // 爱心漂浮：缓慢从底部升起
+    function makeHeart(){
+      const h=document.createElement('span');
+      h.className='heart';
+      h.style.left=(Math.random()*100)+'vw';
+      h.style.setProperty('--hx', (Math.random()*10-5)+'vw');
+      h.style.setProperty('--hs', (0.8+Math.random()*0.7));
+      const dur = 14 + Math.random()*10;
+      h.style.animationDuration = dur+'s';
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(), (dur+1)*1000);
+    }
+    for(let i=0;i<12;i++) makeHeart();
+    setInterval(()=>{ if(document.querySelectorAll('.heart').length<28) makeHeart(); }, 1800);
+
+    // 根据 URL 查询参数快速个性化：?names=阿黎·阿夏&date=2026-10-01T11:00:00+08:00&place=某某酒店
+    const params = new URLSearchParams(location.search);
+    if(params.get('names')){
+      document.querySelector('.names').innerHTML = params.get('names').replace(/\s+/g,' ').trim().replace('·',' <span class="amp">·</span> ');
+      document.title = '我们结婚啦 · ' + params.get('names').replace(/\s+/g,' ');
+    }
+    if(params.get('date')){
+      const d=new Date(params.get('date'));
+      if(!isNaN(d)){
+        const cn = d.toLocaleString('zh-CN', {year:'numeric', month:'long', day:'numeric', weekday:'short', hour:'2-digit', minute:'2-digit'});
+        document.getElementById('dateText').textContent = cn.split(' ')[0];
+        document.getElementById('timeText').textContent = cn.split(' ')[1]||WEDDING.timeText;
+      }
+    }
+    if(params.get('place')){
+      document.getElementById('placeText').textContent = params.get('place');
+    }
   </script>
 </body>
 </html>
+
