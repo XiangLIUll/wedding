@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>我们结婚啦 · 刘翔 & 刘乐</title>
+  <title>我们结婚啦 · 林安 & 程夏</title>
   <meta name="description" content="诚挚邀请您参加我们的婚礼，与我们一起见证这份温柔的爱。" />
-  <meta property="og:title" content="我们结婚啦 · 刘翔 & 刘乐" />
+  <meta property="og:title" content="我们结婚啦 · 林安 & 程夏" />
   <meta property="og:description" content="点开请柬，启程赴约。" />
   <!-- 纯SVG占位分享图，部署后可替换为真实链接 -->
   <meta property="og:image" content="data:image/svg+xml;utf8, 
@@ -18,7 +18,7 @@
       </defs>
       <rect width='100%' height='100%' fill='url(%23g)'/>
       <text x='50%' y='45%' dominant-baseline='middle' text-anchor='middle' fill='%232a3a4a' font-size='62' font-family='Noto Serif SC'>我们结婚啦</text>
-      <text x='50%' y='60%' dominant-baseline='middle' text-anchor='middle' fill='%234a6fa7' font-size='42' font-family='Noto Serif SC'>刘翔 · 刘乐</text>
+      <text x='50%' y='60%' dominant-baseline='middle' text-anchor='middle' fill='%234a6fa7' font-size='42' font-family='Noto Serif SC'>林安 · 程夏</text>
     </svg>" />
 
   <!-- 字体（可按需替换） -->
@@ -192,6 +192,38 @@
 .flowers .center{fill:#ff9fb3}
 .flowers .leaf{fill:#86bd96}
 
+/* —— 动起来的“囍”与中心标题 —— */
+.heroTitle{position:absolute; left:50%; top:44vh; transform:translate(-50%,-50%); z-index:3; pointer-events:none; font-family:"Ma Shan Zheng","Great Vibes", cursive; font-size:clamp(36px, 9vw, 100px); letter-spacing:.1em; background:linear-gradient(180deg,#2a3a4a,#6fa3d4); -webkit-background-clip:text; color:transparent; text-shadow:0 8px 24px rgba(26,40,52,.14); animation:titlePulse 8s ease-in-out infinite}
+@keyframes titlePulse{0%,100%{opacity:.95; transform:translate(-50%,-50%) scale(1)}50%{opacity:.78; transform:translate(-50%,-50%) scale(.98)}}
+
+/* 下落的“囍”印章（与爱心类似，但方向向下） */
+.seal-fall{position:fixed; top:-8vh; width:64px; height:64px; border-radius:50%; background:radial-gradient(circle at 50% 38%, #ff9b9b, #d83a3a 70%); color:#fff7e6; display:grid; place-items:center; font-family:"Ma Shan Zheng", serif; font-size:36px; letter-spacing:.05em; box-shadow:0 10px 24px rgba(216,58,58,.25); filter:saturate(1.05); pointer-events:none; z-index:2; animation:sealDown linear forwards}
+@keyframes sealDown{0%{transform:translate(var(--sx,0), -8vh) scale(var(--ss,1)); opacity:0}10%{opacity:1}100%{transform:translate(calc(var(--sx,0) + 10vw), 110vh) scale(var(--ss,1)); opacity:0}}
+
+/* —— Overrides: golden hero title + scroll hint —— */
+.heroTitle{
+  position:absolute; left:50%; top:44vh; transform:translate(-50%,-50%);
+  z-index:3; pointer-events:none;
+  font-family:"Ma Shan Zheng","Great Vibes", cursive;
+  font-size:clamp(36px, 9vw, 100px); letter-spacing:.1em;
+  background:linear-gradient(180deg,#f9e7b0,#e6c35d,#b8891f);
+  background-size:200% 200%;
+  -webkit-background-clip:text; color:transparent;
+  text-shadow:0 8px 24px rgba(26,40,52,.12);
+  animation:bgShift 9s linear infinite, titlePulse 8s ease-in-out infinite;
+}
+@keyframes bgShift{0%{background-position:50% 0%}100%{background-position:50% 100%}}
+
+.scrollHint{
+  position:absolute; left:50%; top:62vh; transform:translate(-50%,-50%);
+  z-index:3; display:inline-flex; align-items:center; gap:8px;
+  padding:8px 14px; border-radius:999px; font-size:clamp(14px,3.5vw,18px);
+  background:rgba(255,255,255,.55); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  box-shadow:var(--shadow); color:var(--ink); cursor:pointer; user-select:none;
+}
+.scrollHint .arrow{display:inline-block; animation:bounce 1.6s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(-1px)}50%{transform:translateY(3px)}}
+
 </style>
 </head>
 <body>
@@ -307,8 +339,11 @@
       </svg>
     </div>
 
-    <!-- 双喜印章 -->
-    <div class="seal" aria-label="双喜">囍</div>
+    <h2 class="heroTitle">我们结婚了</h2>
+<div class="scrollHint" id="scrollHint" role="button" tabindex="0" aria-label="请向下滑动：点击或按回车自动滚动">请向下滑动 <span class="arrow">↓</span></div>
+
+<!-- 双喜印章 -->
+    
 
     <!-- 地平线：群山与草地（SVG 手绘感） -->
     <svg class="horizon" viewBox="0 0 1200 280" preserveAspectRatio="none" aria-hidden="true">
@@ -348,13 +383,13 @@
     <section class="sheet" role="article" aria-label="婚礼请柬">
       <div class="inner">
         <div class="pretitle">INVITATION</div>
-        <h1 class="names">刘翔 <span class="amp">·</span> 刘乐</h1>
+        <h1 class="names">林安 <span class="amp">·</span> 程夏</h1>
         <p class="tagline">愿风吹过山海，携你与我同在。</p>
 
         <div class="meta" id="meta">
-          <div><strong>日期</strong><br><span id="dateText">2025 年 9 月 29 日（周一）</span></div>
-          <div><strong>时间</strong><br><span id="timeText">8:00 - 18:00</span></div>
-          <div><strong>地点</strong><br><span id="placeText">湖北均川 · 鑫湖湾大酒店 </span></div>
+          <div><strong>日期</strong><br><span id="dateText">2026 年 10 月 1 日（周四）</span></div>
+          <div><strong>时间</strong><br><span id="timeText">11:00 - 14:00</span></div>
+          <div><strong>地点</strong><br><span id="placeText">杭州 · 云岚花园酒店（露台草坪）</span></div>
         </div>
 
         <div class="divider"></div>
@@ -363,11 +398,13 @@
           <a class="btn primary" href="#" id="mapBtn">导航到场地</a>
           <button class="btn" id="calendarBtn" type="button">添加到日历</button>
           <button class="btn" id="shareBtn" type="button">分享这张请柬</button>
+          <a class="btn" id="rsvpBtn" href="#rsvp" onclick="alert('可将此按钮链接到你们的线上回执表单，例如问卷、飞书表单等。');">RSVP 回执</a>
         </div>
 
         <p class="countdown">距见证我们的时刻还有：<span id="dd">--</span> 天 <span id="hh">--</span> 时 <span id="mm">--</span> 分 <span id="ss">--</span> 秒</p>
       </div>
       <div class="footer">
+        <small>着装建议：舒适淡雅 · 可带少量花束或祝福卡片</small>
         <small>谢谢你来，满足我们的“优雅登场”。</small>
       </div>
     </section>
@@ -404,11 +441,11 @@
     // === 可编辑：请把日期、地点、链接替换为你们的信息 ===
     const WEDDING = {
       // ISO 格式：时区可按需改为你所在城市
-      date: '2025-09-29T11:00:00+08:00',
-      dateText: '2025 年 9 月 29 日（周四）',
-      timeText: '8:00 - 18:00',
-      placeText: '湖北均川 · 鑫湖湾大酒店',
-      mapUrl: 'https://map.baidu.com/search/%E9%91%AB%E6%B9%96%E6%B9%BE%E5%A4%A7%E9%85%92%E5%BA%97/@12606048.955000002,3695939.709999998,19z?querytype=s&da_src=shareurl&wd=%E9%91%AB%E6%B9%96%E6%B9%BE%E5%A4%A7%E9%85%92%E5%BA%97&c=1&src=0&wd2=%E9%9A%8F%E5%B7%9E%E5%B8%82%E9%9A%8F%E5%8E%BF&pn=0&sug=1&l=4&b=(-992854.0399999991,-1629611.25;24172969.96,10609236.75)&from=webmap&biz_forward=%7B%22scaler%22:2,%22styles%22:%22pl%22%7D&sug_forward=9ef56445a6eba7b414c8f6a4&device_ratio=2',
+      date: '2026-10-01T11:00:00+08:00',
+      dateText: '2026 年 10 月 1 日（周四）',
+      timeText: '11:00 - 14:00',
+      placeText: '杭州 · 云岚花园酒店（露台草坪）',
+      mapUrl: 'https://maps.google.com/?q=云岚花园酒店 杭州',
       // RSVP 表单链接（可替换）
       rsvpUrl: '#'
     };
@@ -526,6 +563,38 @@
     for(let i=0;i<12;i++) makeHeart();
     setInterval(()=>{ if(document.querySelectorAll('.heart').length<28) makeHeart(); }, 1800);
 
+    // “囍”下落动画（轻量生成，避免遮挡）
+    function makeSealF(){
+      const s=document.createElement('span');
+      s.className='seal-fall';
+      s.textContent='囍';
+      s.style.left=(Math.random()*100)+'vw';
+      s.style.setProperty('--sx', (Math.random()*12-6)+'vw');
+      s.style.setProperty('--ss', (0.7+Math.random()*0.7));
+      const dur=16+Math.random()*12;
+      s.style.animationDuration=dur+'s';
+      document.body.appendChild(s);
+      setTimeout(()=>s.remove(), (dur+1)*1000);
+    }
+    for(let i=0;i<6;i++) makeSealF();
+    setInterval(()=>{ if(document.querySelectorAll('.seal-fall').length<16) makeSealF(); }, 2400);
+
+    // 向下滑动提示 & 自动滚动
+    const scrollHint = document.getElementById('scrollHint');
+    const firstSection = document.querySelector('main');
+    function smoothDown(){ firstSection.scrollIntoView({behavior:'smooth', block:'start'}); }
+    if(scrollHint){
+      scrollHint.addEventListener('click', smoothDown);
+      scrollHint.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); smoothDown(); }});
+    }
+    // 一次性自动滚动（若用户先互动则取消）
+    const AUTO_SCROLL = true; // 如需关闭自动滚动，将其改为 false
+    const AUTO_SCROLL_DELAY_MS = 2600;
+    let autoTimer;
+    function cancelAuto(){ if(autoTimer){ clearTimeout(autoTimer); autoTimer=null; } }
+    ['wheel','touchstart','keydown','scroll'].forEach(evt=> window.addEventListener(evt,cancelAuto,{once:true, passive:true}));
+    if(AUTO_SCROLL){ autoTimer = setTimeout(()=>{ smoothDown(); }, AUTO_SCROLL_DELAY_MS); }
+
     // 根据 URL 查询参数快速个性化：?names=阿黎·阿夏&date=2026-10-01T11:00:00+08:00&place=某某酒店
     const params = new URLSearchParams(location.search);
     if(params.get('names')){
@@ -546,4 +615,3 @@
   </script>
 </body>
 </html>
-
