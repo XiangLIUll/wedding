@@ -61,7 +61,7 @@
 
     /* 云朵 */
     .cloud{position:absolute; top:10vh; left:-25vw; opacity:.9; filter:blur(0.5px);}
-    .cloud .p{position:absolute; background:#fff; border-radius:50%}
+    .cloud .p{position:absolute; background:#fff; will-change:left, transform; border-radius:50%}
 
     /* 山与草 */
     .horizon{position:absolute; inset:auto 0 -1px 0; bottom:0; width:100%;}
@@ -145,15 +145,25 @@
 .lantern:nth-child(3){left:144px; animation-duration:7.2s}
 @keyframes sway{0%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}100%{transform:rotate(-4deg)}}
 
-/* 鲤鱼旗（koinobori） */
-.koi{position:absolute; left:5vw; top:12vh; z-index:1; opacity:.9; pointer-events:none}
-.koi svg{width:220px; height:auto; filter:drop-shadow(0 6px 8px rgba(0,0,0,.08))}
-.koi .tail{transform-origin:160px 42px; animation:wave 2.8s ease-in-out infinite}
-@keyframes wave{0%{transform:rotate(0)}50%{transform:rotate(8deg)}100%{transform:rotate(0)}}
+/* 龙猫照片（替换鲤鱼旗） */
+.koi{position:absolute; left:5vw; top:12vh; z-index:1; opacity:1; pointer-events:none;
+  width:220px; height:90px; border-radius:12px; overflow:hidden;
+  background: #fff url('https://picsum.photos/seed/totoro/440/180') center/cover no-repeat;
+  box-shadow: var(--shadow);
+  animation:koiFloat 6s ease-in-out infinite;
+}
+.koi::after{content:""; position:absolute; inset:0; border-radius:12px;
+  box-shadow: inset 0 0 0 3px rgba(255,255,255,.6);
+}
+.koi svg{display:none}
+@keyframes koiFloat{0%,100%{transform:translateY(-4px)}50%{transform:translateY(4px)}}
 
-/* 轻盈飞行器剪影 */
-.airship{position:absolute; left:-20vw; top:20vh; z-index:1; opacity:.7; pointer-events:none; animation:sail 95s linear infinite}
-@keyframes sail{from{transform:translateX(-20vw)}to{transform:translateX(125vw)}}
+/* 照片气泡（圆形相框，沿原航线漂移） */
+.airship{position:absolute; left:-20vw; top:20vh; z-index:2; pointer-events:auto; width:var(--photo-size, 200px); height:var(--photo-size, 200px); border-radius:50%; overflow:hidden; box-shadow:var(--shadow); border:3px solid rgba(255,255,255,.7); background:#fff; animation:sailX 70s linear infinite, bobY 6.2s ease-in-out infinite}
+.airship img{width:100%; height:100%; object-fit:cover; display:block}
+.airship::after{content:""; position:absolute; inset:0; border-radius:50%; box-shadow:inset 0 0 0 6px rgba(255,255,255,.35)}
+@keyframes sailX{from{left:-20vw}to{left:125vw}}
+@keyframes bobY{0%,100%{transform:translateY(-8px)}50%{transform:translateY(8px)}}
 
 /* 萤火虫（夜幕氛围） */
 .firefly{position:fixed; width:4px; height:4px; border-radius:50%; background:radial-gradient(circle, #fff, rgba(255,255,255,0)); box-shadow:0 0 10px 3px rgba(255,255,200,.6); mix-blend-mode:screen; pointer-events:none; animation:flicker 3s ease-in-out infinite, floaty 22s linear infinite}
@@ -215,7 +225,7 @@
 @keyframes bgShift{0%{background-position:50% 0%}100%{background-position:50% 100%}}
 
 .scrollHint{
-  position:absolute; left:50%; top:62vh; transform:translate(-50%,-50%);
+  position:absolute; left:50%; top:74vh; transform:translate(-50%,-50%);
   z-index:3; display:inline-flex; align-items:center; gap:8px;
   padding:8px 14px; border-radius:999px; font-size:clamp(14px,3.5vw,18px);
   background:rgba(255,255,255,.55); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
@@ -223,6 +233,18 @@
 }
 .scrollHint .arrow{display:inline-block; animation:bounce 1.6s ease-in-out infinite}
 @keyframes bounce{0%,100%{transform:translateY(-1px)}50%{transform:translateY(3px)}}
+
+/* —— 圆形相框滑动画廊（向右滑动） —— */
+.photoRail{position:absolute; left:0; right:0; top:58vh; height:var(--bubble-size,120px); z-index:3; overflow:hidden; pointer-events:auto}
+.photoRail .track{display:flex; will-change:transform; animation:marqueeRight 60s linear infinite}
+.photoRail.paused .track{animation-play-state:paused}
+.photoRail .rail{display:inline-flex; align-items:center; gap:18px; padding:0 18px}
+.photoRail .bubble{width:var(--bubble-size,120px); height:var(--bubble-size,120px); border-radius:50%; overflow:hidden; border:3px solid rgba(255,255,255,.7); background:#fff; box-shadow:var(--shadow); animation:floatSoft 7s ease-in-out infinite}
+.photoRail .bubble img{width:100%; height:100%; object-fit:cover; display:block}
+@keyframes marqueeRight{0%{transform:translateX(-50%)}100%{transform:translateX(0%)}}
+@keyframes floatSoft{0%,100%{transform:translateY(-6px)}50%{transform:translateY(6px)}}
+@media (max-width:520px){.photoRail{top:64vh; --bubble-size:92px}}
+@media (prefers-reduced-motion:reduce){.photoRail .track,.photoRail .bubble{animation:none!important}}
 
 </style>
 </head>
@@ -253,6 +275,27 @@
         </g>
         <circle cx="98" cy="42" r="3" fill="#243036"/>
       </svg>
+    </div>
+
+    <!-- 圆形相框滑动画廊（请把 src 换成你们的照片） -->
+    <div class="photoRail" id="photoRail" aria-label="旅途与婚纱圆形画廊">
+      <div class="track">
+        <div class="rail">
+          <figure class="bubble"><img src="https://picsum.photos/seed/journey1/600/600" alt="旅途·海边" loading="lazy"/></figure>
+          <figure class="bubble"><img src="https://picsum.photos/seed/journey2/600/600" alt="旅途·山间" loading="lazy"/></figure>
+          <figure class="bubble"><img src="https://picsum.photos/seed/journey3/600/600" alt="旅途·城市夜景" loading="lazy"/></figure>
+          <figure class="bubble"><img src="https://picsum.photos/seed/journey4/600/600" alt="旅途·森林" loading="lazy"/></figure>
+          <figure class="bubble"><img src="https://picsum.photos/seed/journey5/600/600" alt="旅途·咖啡馆" loading="lazy"/></figure>
+          <figure class="bubble"><img src="https://picsum.photos/seed/journey6/600/600" alt="旅途·日落" loading="lazy"/></figure>
+          <figure class="bubble"><img src="https://picsum.photos/seed/wedding1/600/600" alt="婚纱·拥抱" loading="lazy"/></figure>
+          <figure class="bubble"><img src="https://picsum.photos/seed/wedding2/600/600" alt="婚纱·花园" loading="lazy"/></figure>
+          <figure class="bubble"><img src="https://picsum.photos/seed/wedding3/600/600" alt="婚纱·草地" loading="lazy"/></figure>
+          <figure class="bubble"><img src="https://picsum.photos/seed/wedding4/600/600" alt="婚纱·教堂" loading="lazy"/></figure>
+          <figure class="bubble"><img src="https://picsum.photos/seed/journey7/600/600" alt="旅途·湖畔" loading="lazy"/></figure>
+          <figure class="bubble"><img src="https://picsum.photos/seed/journey8/600/600" alt="旅途·小镇" loading="lazy"/></figure>
+        </div>
+      </div>
+    </div>
 
     <!-- 花丛前景（SVG） -->
     <svg class="flowers" viewBox="0 0 1200 180" preserveAspectRatio="none" aria-hidden="true">
@@ -331,13 +374,9 @@
     </svg>
   </div>
 
-    <div class="airship" aria-hidden="true">
-      <svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="150" cy="60" rx="130" ry="42" fill="#cfe8ff" opacity=".85"/>
-        <rect x="128" y="82" width="44" height="14" rx="3" fill="#7fa3c7"/>
-        <polygon points="130,86 120,106 180,106 170,86" fill="#9bb7d7"/>
-      </svg>
-    </div>
+    <div class="airship" aria-label="我们的照片">
+  <img src="https://picsum.photos/seed/couple/800/800" alt="我们的合影" loading="eager" decoding="async"/>
+</div>
 
     <h2 class="heroTitle">我们结婚了</h2>
 <div class="scrollHint" id="scrollHint" role="button" tabindex="0" aria-label="请向下滑动：点击或按回车自动滚动">请向下滑动 <span class="arrow">↓</span></div>
@@ -416,19 +455,19 @@
         <p class="tagline">我们的旅途小片段</p>
         <div class="wrap">
           <figure class="polaroid">
-            <img loading="lazy" src="assets/photo1.jpg" alt="我们在海边的合影"/>
+            <img loading="lazy" src="https://picsum.photos/seed/album1/1200/900" alt="我们在海边的合影"/>
             <figcaption>初见</figcaption>
           </figure>
           <figure class="polaroid">
-            <img loading="lazy" src="assets/photo2.jpg" alt="一起远足的瞬间"/>
+            <img loading="lazy" src="https://picsum.photos/seed/album2/1200/900" alt="一起远足的瞬间"/>
             <figcaption>一路有风</figcaption>
           </figure>
           <figure class="polaroid">
-            <img loading="lazy" src="assets/photo3.jpg" alt="黄昏下的背影"/>
+            <img loading="lazy" src="https://picsum.photos/seed/album3/1200/900" alt="黄昏下的背影"/>
             <figcaption>黄昏与拥抱</figcaption>
           </figure>
           <figure class="polaroid">
-            <img loading="lazy" src="assets/photo4.jpg" alt="城市街头的欢笑"/>
+            <img loading="lazy" src="https://picsum.photos/seed/album4/1200/900" alt="城市街头的欢笑"/>
             <figcaption>日常的小宇宙</figcaption>
           </figure>
         </div>
@@ -594,6 +633,26 @@
     function cancelAuto(){ if(autoTimer){ clearTimeout(autoTimer); autoTimer=null; } }
     ['wheel','touchstart','keydown','scroll'].forEach(evt=> window.addEventListener(evt,cancelAuto,{once:true, passive:true}));
     if(AUTO_SCROLL){ autoTimer = setTimeout(()=>{ smoothDown(); }, AUTO_SCROLL_DELAY_MS); }
+
+    // 圆形相框滑动画廊：克隆一份以实现无缝循环、随机起伏延迟、悬停/触摸暂停
+    (function(){
+      const pr = document.getElementById('photoRail');
+      if(!pr) return;
+      const track = pr.querySelector('.track');
+      const rail = pr.querySelector('.rail');
+      if(track && rail){
+        // 克隆一份内容，实现 200% 长度的无缝循环
+        track.appendChild(rail.cloneNode(true));
+        // 随机化每个圆相框的上下起伏延迟
+        track.querySelectorAll('.bubble').forEach(b=>{ b.style.animationDelay = (Math.random()*-6).toFixed(2)+'s'; });
+        // 悬停/触摸暂停
+        const pause = ()=> pr.classList.add('paused');
+        const resume = ()=> pr.classList.remove('paused');
+        pr.addEventListener('mouseenter', pause);
+        pr.addEventListener('mouseleave', resume);
+        pr.addEventListener('touchstart', ()=>{ pause(); clearTimeout(pr._t); pr._t=setTimeout(resume, 3000); }, {passive:true});
+      }
+    })();
 
     // 根据 URL 查询参数快速个性化：?names=阿黎·阿夏&date=2026-10-01T11:00:00+08:00&place=某某酒店
     const params = new URLSearchParams(location.search);
