@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>我们结婚啦 · 林安 & 程夏</title>
+  <title>我们结婚了 · 林安 & 程夏</title>
   <meta name="description" content="诚挚邀请您参加我们的婚礼，与我们一起见证这份温柔的爱。" />
-  <meta property="og:title" content="我们结婚啦 · 林安 & 程夏" />
+  $1我们结婚了 · 林安 & 程夏" />
   <meta property="og:description" content="点开请柬，启程赴约。" />
   <!-- 纯SVG占位分享图，部署后可替换为真实链接 -->
   <meta property="og:image" content="data:image/svg+xml;utf8, 
@@ -146,8 +146,6 @@
 .lanterns.left{left:3vw; right:auto;}
 @keyframes sway{0%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}100%{transform:rotate(-4deg)}}
 
-50%{transform:translateY(4px)}}
-
 /* 照片气泡（圆形相框，沿原航线漂移） */
 .airship{position:absolute; left:-20vw; top:20vh; z-index:2; pointer-events:auto; width:var(--photo-size, 200px); height:var(--photo-size, 200px); border-radius:50%; overflow:hidden; box-shadow:var(--shadow); border:3px solid rgba(255,255,255,.7); background:#fff; animation:sailX 35s linear infinite, bobY 6.2s ease-in-out infinite}
 .airship img{width:100%; height:100%; object-fit:cover; display:block}
@@ -259,12 +257,12 @@
     <div class="photoRail" id="photoRail" aria-label="旅途与婚纱圆形画廊">
       <div class="track">
         <div class="rail">
-          
-          
-          
-          
-          
-          
+          <figure class="bubble"><img src="https://picsum.photos/seed/journey1/600/600" alt="旅途 1" loading="lazy"/></figure>
+          <figure class="bubble"><img src="https://picsum.photos/seed/journey2/600/600" alt="旅途 2" loading="lazy"/></figure>
+          <figure class="bubble"><img src="https://picsum.photos/seed/journey3/600/600" alt="旅途 3" loading="lazy"/></figure>
+          <figure class="bubble"><img src="https://picsum.photos/seed/journey4/600/600" alt="旅途 4" loading="lazy"/></figure>
+          <figure class="bubble"><img src="https://picsum.photos/seed/wedding1/600/600" alt="婚纱 1" loading="lazy"/></figure>
+          <figure class="bubble"><img src="https://picsum.photos/seed/wedding2/600/600" alt="婚纱 2" loading="lazy"/></figure>
         </div>
       </div>
     </div>
@@ -388,7 +386,6 @@
         <use href="#grass" x="780"/>
       </g>
     </svg>
-  </div>
 
   <main class="card">
     <section class="sheet" role="article" aria-label="婚礼请柬">
@@ -482,7 +479,7 @@
         const pad=n=>String(n).padStart(2,'0');
         return d.getUTCFullYear()+pad(d.getUTCMonth()+1)+pad(d.getUTCDate())+'T'+pad(d.getUTCHours())+pad(d.getUTCMinutes())+pad(d.getUTCSeconds())+'Z'
       }
-      const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Wedding//Invitation//CN\nBEGIN:VEVENT\nUID:${Date.now()}@wedding\nDTSTAMP:${fmt(new Date())}\nDTSTART:${fmt(start)}\nDTEND:${fmt(end)}\nSUMMARY:我们结婚啦 · 林安 & 程夏\nDESCRIPTION:诚挚邀请您与我们一同见证爱情。\nLOCATION:${WEDDING.placeText}\nEND:VEVENT\nEND:VCALENDAR`;
+      const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Wedding//Invitation//CN\nBEGIN:VEVENT\nUID:${Date.now()}@wedding\nDTSTAMP:${fmt(new Date())}\nDTSTART:${fmt(start)}\nDTEND:${fmt(end)}\nSUMMARY:我们结婚了 · 林安 & 程夏\nDESCRIPTION:诚挚邀请您与我们一同见证爱情。\nLOCATION:${WEDDING.placeText}\nEND:VEVENT\nEND:VCALENDAR`;
       const blob = new Blob([ics], {type:'text/calendar'});
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
